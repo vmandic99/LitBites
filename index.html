@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - LitBites</title>
+
+    <!-- Firebase und andere Module als Module einbinden -->
+    <script type="module" src="src/firebase/firebaseinit.js"></script> <!-- Firebase Initialisierung -->
+    <script type="module" src="src/firebase/app.js" defer></script> <!-- App Logik -->
+</head>
+
+<body>
+    <div id="login_content">
+        <h1>Welcome to LitBites</h1>
+        <input type="email" id="email_field" name="email" placeholder="Enter your E-mail" required />
+        <input type="password" id="password_field" name="password" placeholder="Enter your Password" required />
+
+        <input type="submit" id="login_btn" name="login" value="Login" />
+        <button id="google-login_btn">Login with Google</button>
+    </div>
+    <div id="content" style="display: none;">
+        <h1 id="welcome_headline"></h1>
+        <input type="submit" id="logout_btn" name="logout" value="Logout" />
+    </div>
+
+</body>
+
+</html>
