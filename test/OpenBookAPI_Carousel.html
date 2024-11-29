@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Carousel - Open Library API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .book-carousel {
+            display: flex;
+            overflow: hidden;
+            width: 80%;
+            margin: 0 auto;
+            justify-content: center;
+            position: relative;
+        }
+
+        .book-list {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .book {
+            flex: 0 0 auto;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .book img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .book-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .book-author {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .book-description {
+            font-size: 14px;
+        }
+
+        .carousel-btns {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .prev-btn,
+        .next-btn {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .prev-btn:hover,
+        .next-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <h1>Book Search with Open Library API</h1>
+    <p>Search for books by title, author, or ISBN</p>
+
+    <input type="text" id="search-query" placeholder="Enter book title or author" />
+    <button onclick="searchBooks()">Search</button>
+
+    <!-- Carousel Container -->
+    <div id="book-carousel" class="book-carousel">
+        <!-- The books will appear here dynamically -->
+        <div id="book-list" class="book-list"></div>
+        <div class="carousel-btns">
+            <button class="prev-btn" onclick="moveCarousel('prev')">Prev</button>
+            <button class="next-btn" onclick="moveCarousel('next')">Next</button>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0; // Index für das aktuelle Buch im Carousel
+        let books = []; // Array zum Speichern der Buchdaten
+
+        // Funktion zum Suchen von Büchern
+        function searchBooks() {
+            const query = document.getElementById('search-query').value;
+            if (!query) {
+                alert('Please enter a search query.');
+                return;
+            }
+
+            const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`;
+
+            // Hole die Daten von der Open Library API
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    books = data.docs;
+                    displayBooks(books);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    alert('An error occurred while fetching book data.');
+                });
+        }
+
+        // Funktion zum Anzeigen der Bücher im Carousel
+        function displayBooks(books) {
+            const listContainer = document.getElementById('book-list');
+            listContainer.innerHTML = ''; // Lösche die bisherigen Bücher
+
+            if (books.length === 0) {
+                listContainer.innerHTML = '<p>No books found.</p>';
+                return;
+            }
+
+            // Erstelle die Buch-Elemente im Carousel
+            books.forEach((book, index) => {
+                const bookElement = document.createElement('div');
+                bookElement.classList.add('book');
+                const imgSrc = book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : 'https://via.placeholder.com/100';
+                bookElement.innerHTML = `
+                    <img src="${imgSrc}" alt="Book Cover">
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">Author(s): ${book.author_name ? book.author_name.join(', ') : 'Unknown'}</div>
+                    <div class="book-description">First published: ${book.first_publish_year || 'N/A'}</div>
+                `;
+                listContainer.appendChild(bookElement);
+            });
+
+            // Zeige das Carousel mit den Buchdaten an
+            updateCarousel();
+        }
+
+        // Funktion zum Aktualisieren des Carousels
+        function updateCarousel() {
+            const bookList = document.getElementById('book-list');
+            const offset = -currentIndex * 220; // Position der Bücher im Carousel
+            bookList.style.transform = `translateX(${offset}px)`;
+        }
+
+        // Funktion für das Vor- und Zurückblättern der Bücher
+        function moveCarousel(direction) {
+            if (direction === 'next') {
+                if (currentIndex < books.length - 1) {
+                    currentIndex++;
+                }
+            } else if (direction === 'prev') {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                }
+            }
+            updateCarousel();
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+</head>
+
+<body>
+    <h1>Book Details</h1>
+    <div id="book-details">
+        <!-- Buchdetails werden hier angezeigt -->
+    </div>
+
+    <script>
+        // Funktion zum Abrufen des 'key' aus der URL
+        function getKeyFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('key'); // Gibt den Wert des 'key' Parameters zurück
+        }
+
+        // Funktion zum Laden der Buchdetails mit dem 'key'
+        function loadBookDetails(bookKey) {
+            const url = `https://openlibrary.org${bookKey}.json`; // Open Library API für 'key'
+
+            // Abrufen der Buchdetails von der API
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const bookDetails = document.getElementById('book-details');
+                    const bookCover = data.cover_id ? `https://covers.openlibrary.org/b/id/${data.cover_id}-L.jpg` : 'https://via.placeholder.com/200';
+                    const authors = data.authors ? data.authors.map(author => author.name).join(', ') : 'Unknown';
+
+                    bookDetails.innerHTML = `
+                        <h2>${data.title}</h2>
+                        <p>Author(s): ${authors}</p>
+                        <p>Published: ${data.publish_date || 'N/A'}</p>
+                        <img src="${bookCover}" alt="Book Cover">
+                        <p>${data.description ? data.description.value : 'No description available.'}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error fetching book details:', error);
+                    alert('Could not load book details.');
+                });
+        }
+
+        // Abrufen des 'key' aus der URL und Laden der Buchdetails
+        const bookKey = getKeyFromURL();
+        if (bookKey) {
+            loadBookDetails(bookKey);
+        } else {
+            alert('No book found with the provided key.');
+        }
+    </script>
+</body>
+
+</html>

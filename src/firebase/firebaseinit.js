@@ -102,9 +102,12 @@ const changeContent = (state) => {
     document.getElementById('content').style.display = 'block';  // Den Content sichtbar machen
 
     document.getElementById('welcome_headline').innerText = "Willkommen auf LitBits " + loggeduser.email;
+    document.getElementById('taskbarnavigation').style.display = 'block';
+ 
   } else if (state === false) {
     // Wenn der Zustand false ist, zeige das Login-Formular und verberge den Haupt-Content
     document.getElementById('login_content').style.display = 'block';  // Login-Formular sichtbar machen
     document.getElementById('content').style.display = 'none';  // Haupt-Content unsichtbar machen
+    document.getElementById('taskbarnavigation').style.display = 'none';
   }
 };

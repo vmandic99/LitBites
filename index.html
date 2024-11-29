@@ -9,22 +9,33 @@
     <!-- Firebase und andere Module als Module einbinden -->
     <script type="module" src="src/firebase/firebaseinit.js"></script> <!-- Firebase Initialisierung -->
     <script type="module" src="src/firebase/app.js" defer></script> <!-- App Logik -->
+    <link rel="stylesheet" href="styles.css"> <!-- Dein CSS-Link -->
+
 </head>
 
 <body>
+    <!-- Dynamisch geladene Taskleiste -->
+    <div id="taskbar-container"></div>
+
     <div id="login_content">
         <h1>Welcome to LitBites</h1>
         <input type="email" id="email_field" name="email" placeholder="Enter your E-mail" required />
         <input type="password" id="password_field" name="password" placeholder="Enter your Password" required />
 
         <input type="submit" id="login_btn" name="login" value="Login" />
-        <button id="google-login_btn">Login with Google</button>
+        <input type="submit" id="google-login_btn" name="google_login" value="Login with Google"/>
     </div>
     <div id="content" style="display: none;">
         <h1 id="welcome_headline"></h1>
+        <div id="addbooks"></div>
         <input type="submit" id="logout_btn" name="logout" value="Logout" />
     </div>
 
 </body>
+<footer>
+    <script src="/src/scripts/onload.js"></script> <!-- Dein externer JavaScript-Link -->
+    <script src="/src/scripts/book.js"></script> <!-- Dein externer JavaScript-Link -->
+
+</footer>
 
 </html>

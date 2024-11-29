@@ -47,4 +47,3 @@ document.getElementById('login_btn').addEventListener('click', loginWithEmail);
 document.getElementById('google-login_btn').addEventListener('click', loginWithGoogle);
 document.getElementById('logout_btn').addEventListener('click', logoutEvent);
 
-
