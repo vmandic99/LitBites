@@ -22,15 +22,18 @@
 
         // Funktion zum Laden der Buchdetails mit dem 'key'
         function loadBookDetails(bookKey) {
-            const url = `https://openlibrary.org${bookKey}.json`; // Open Library API für 'key'
-
+            const url = `https://openlibrary.org/books/${bookKey}.json `; // Open Library API für 'key'
             // Abrufen der Buchdetails von der API
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                    console.log("HIER IST DAS BUCH")
+                    console.log(data)
                     const bookDetails = document.getElementById('book-details');
-                    const bookCover = data.cover_id ? `https://covers.openlibrary.org/b/id/${data.cover_id}-L.jpg` : 'https://via.placeholder.com/200';
+                    const bookCover = `https://covers.openlibrary.org/b/olid/${bookKey}-M.jpg`;
+                    console.log(bookCover)
                     const authors = data.authors ? data.authors.map(author => author.name).join(', ') : 'Unknown';
+                    console.log(data);
 
                     bookDetails.innerHTML = `
                         <h2>${data.title}</h2>

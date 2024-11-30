@@ -10,7 +10,7 @@ function searchBooks() {
     }
 
     const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`;
-
+    console.log(url);
     // Hole die Daten von der Open Library API
     fetch(url)
         .then(response => response.json())
@@ -40,7 +40,7 @@ function displayBooks(books) {
         bookElement.classList.add('book');
         const imgSrc = book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : 'https://via.placeholder.com/100';
         const authors = book.author_name ? book.author_name.join(', ') : 'Unknown';
-        
+        console.log(book);
         bookElement.innerHTML = `
             <img src="${imgSrc}" alt="Book Cover">
             <div class="book-title">${book.title}</div>
@@ -50,7 +50,9 @@ function displayBooks(books) {
         
         // Klick-Event für das Buch hinzufügen, zur Detailseite weiterleiten
         bookElement.addEventListener('click', function() {
-            openBookPage(book.key); // 'key' ist der Identifier in der Open Library API
+            console.log(book);
+            openBookPage(book.cover_edition_key); // 'key' ist der Identifier in der Open Library API
+ 
         });
 
         listContainer.appendChild(bookElement);
