@@ -36,7 +36,6 @@ const logoutEvent = () => {
     .then(() => { 
       document.getElementById('book-list').innerHTML = '';
       document.getElementById('search-query').value = '';
-      console.log("reset");
     })
     .catch((error) => {
       alert('Error: ' + error.message);

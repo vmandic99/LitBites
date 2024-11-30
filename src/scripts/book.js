@@ -36,26 +36,28 @@ function displayBooks(books) {
 
     // Erstelle die Buch-Elemente im Carousel
     books.forEach((book, index) => {
-        const bookElement = document.createElement('div');
-        bookElement.classList.add('book');
-        const imgSrc = book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : 'https://via.placeholder.com/100';
-        const authors = book.author_name ? book.author_name.join(', ') : 'Unknown';
-        console.log(book);
-        bookElement.innerHTML = `
+        if (book.cover_edition_key != null) { //if a book doesnt have a cover, it shouldnt be added because the cover_edition_key is not there and it causes problem, all the books are already in the OpenLibrary DB
+            const bookElement = document.createElement('div');
+            bookElement.classList.add('book');
+            const imgSrc = book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : 'https://via.placeholder.com/100';
+            const authors = book.author_name ? book.author_name.join(', ') : 'Unknown';
+            console.log(book);
+            bookElement.innerHTML = `
             <img src="${imgSrc}" alt="Book Cover">
             <div class="book-title">${book.title}</div>
             <div class="book-author">Author(s): ${authors}</div>
             <div class="book-description">First published: ${book.first_publish_year || 'N/A'}</div>
         `;
-        
-        // Klick-Event für das Buch hinzufügen, zur Detailseite weiterleiten
-        bookElement.addEventListener('click', function() {
-            console.log(book);
-            openBookPage(book.cover_edition_key); // 'key' ist der Identifier in der Open Library API
- 
-        });
 
-        listContainer.appendChild(bookElement);
+            // Klick-Event für das Buch hinzufügen, zur Detailseite weiterleiten
+            bookElement.addEventListener('click', function () {
+                console.log(book);
+                openBookPage(book.cover_edition_key); // 'key' ist der Identifier in der Open Library API
+
+            });
+
+            listContainer.appendChild(bookElement);
+        }
     });
 
     // Zeige das Carousel mit den Buchdaten an
