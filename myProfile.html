@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <script type="module" src="src/firebase/app.js" defer></script> <!-- App Logik -->
+
+    <link rel="stylesheet" href="styles.css"> <!-- Dein CSS-Link -->
+
+</head>
+
+<body>
+    <!-- Dynamisch geladene Taskleiste -->
+    <div id="taskbar-container">
+        <div class="taskbar">
+            <!-- Logo links -->
+            <div class="logo">
+                <img src="content/Icon.png" alt="Logo" height="120">
+            </div>
+        
+            <!-- Navigation rechts -->
+            <div id="taskbarnavigation" class="taskbarnavigation">
+                <a href="#" id="my-books">My Books</a>
+                <a href="#" id="my-bites">My Bites</a>
+                <a href="myProfile.html" id="profile">My Profile</a>
+            </div>
+        </div>
+        
+    </div>
+
+    <h1>My Profile</h1>
+    <input type="submit" id="logout_btn" name="logout" value="Logout" />
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
 import { doc, setDoc, getDoc, getDocs, getFirestore, updateDoc, Timestamp, collection, where, query, FieldValue, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; //von gettstarted login
+import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut, updatePassword} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; //von gettstarted login
 
 
 // Deine Firebase-Konfiguration
@@ -89,6 +89,27 @@ export const logout = async () => {
     console.log('User signed out');
   } catch (error) {
     console.error('Error signing out:', error.message);
+    throw error;
+  }
+};
+
+// Neues Passwort für den Benutzer, für zukunft
+export const changePassword = async (newPassword) => {
+  try {
+    const user = result.user;  // Das Benutzerobjekt
+    // Benutzerauthentifizierung ist erforderlich, um das Passwort zu ändern
+    updatePassword(user, newPassword)
+    .then(() => {
+        // Passwort wurde erfolgreich geändert
+        alert("Password updated successfully!");
+    })
+    .catch((error) => {
+        // Fehler bei der Passwortänderung
+        console.error("Error updating password:", error);
+        alert("Error updating password: " + error.message);
+    });
+  } catch (error) {
+    console.error('No User logged');
     throw error;
   }
 };

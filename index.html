@@ -15,8 +15,22 @@
 
 <body>
     <!-- Dynamisch geladene Taskleiste -->
-    <div id="taskbar-container"></div>
-
+    <div id="taskbar-container">
+        <div class="taskbar">
+            <!-- Logo links -->
+            <div class="logo">
+                <img src="content/Icon.png" alt="Logo" height="120">
+            </div>
+        
+            <!-- Navigation rechts -->
+            <div id="taskbarnavigation" class="taskbarnavigation">
+                <a href="#" id="my-books">My Books</a>
+                <a href="#" id="my-bites">My Bites</a>
+                <a href="myProfile.html" id="profile">My Profile</a>
+            </div>
+        </div>
+        
+    </div>
     <div id="login_content">
         <h1>Welcome to LitBites</h1>
         <input type="email" id="email_field" name="email" placeholder="Enter your E-mail" required />

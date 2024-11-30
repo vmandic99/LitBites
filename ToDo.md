@@ -14,3 +14,5 @@ bringt nicht die nötigen Daten für das Buch.
 ## Future Ideas:
 - [ ] Add a feature to rate books
 - [ ] Implement a recommendation system for books
+
+

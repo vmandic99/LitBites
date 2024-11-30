@@ -1,6 +1,19 @@
 let currentIndex = 0; // Index für das aktuelle Buch im Carousel
 let books = []; // Array zum Speichern der Buchdaten
 
+ // Die ReUse-Komponente in den div mit id 'reuse_content' laden
+ //DAS IST WICHTIG
+ fetch('reuse_component.html')
+ .then(response => response.text())
+ .then(html => {
+     document.getElementById('addbooks').innerHTML = html;
+ })
+ .catch(error => {
+     console.error('Error loading reuse_component.html:', error);
+ });
+
+
+ 
 // Funktion zum Suchen von Büchern
 function searchBooks() {
     const query = document.getElementById('search-query').value;
