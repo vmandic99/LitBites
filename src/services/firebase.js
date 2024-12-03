@@ -2,19 +2,19 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-import { doc, setDoc, getDoc, getDocs, getFirestore, updateDoc, Timestamp, collection, where, query, FieldValue, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut, updatePassword} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; //von gettstarted login
+import { doc, setDoc, getDoc, getDocs, getFirestore, updateDoc, Timestamp, collection, where, query, FieldValue, arrayUnion, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut, updatePassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; //von gettstarted login
 
 //import {changeContent} from "./app.js"
 
 // Deine Firebase-Konfiguration
 const firebaseConfig = {
-  apiKey: "AIzaSyAdHop1Apzt0bL9LjQInL_p3dMXECv4VaA",
-  authDomain: "litbites-d485b.firebaseapp.com",
-  projectId: "litbites-d485b",
-  storageBucket: "litbites-d485b.firebasestorage.app",
-  messagingSenderId: "615495624935",
-  appId: "1:615495624935:web:0d120496f71ff44c559a42"
+    apiKey: "AIzaSyAdHop1Apzt0bL9LjQInL_p3dMXECv4VaA",
+    authDomain: "litbites-d485b.firebaseapp.com",
+    projectId: "litbites-d485b",
+    storageBucket: "litbites-d485b.firebasestorage.app",
+    messagingSenderId: "615495624935",
+    appId: "1:615495624935:web:0d120496f71ff44c559a42"
 };
 
 // Initialisiere Firebase
@@ -29,127 +29,176 @@ const provider = new GoogleAuthProvider(); // Google Auth Provider für Google L
 let loggeduser;
 // Überprüfen, ob der Benutzer angemeldet ist
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // Der Benutzer ist angemeldet
-    console.log("Aktueller Benutzer:", user);
-    // Zugriff auf Benutzerinformationen wie z.B. UID und E-Mail
-    console.log("Benutzer ID:", user.uid);
-    console.log("Benutzer E-Mail:", user.email);
-    //saveUserToLocalStorage(user.uid, user.email);
-  } else {
-    // Der Benutzer ist nicht angemeldet
-    console.log("Kein Benutzer angemeldet.");
-    
-  }
+    if (user) {
+        // Der Benutzer ist angemeldet
+        console.log("Aktueller Benutzer:", user);
+        // Zugriff auf Benutzerinformationen wie z.B. UID und E-Mail
+        console.log("Benutzer ID:", user.uid);
+        console.log("Benutzer E-Mail:", user.email);
+        //saveUserToLocalStorage(user.uid, user.email);
+    } else {
+        // Der Benutzer ist nicht angemeldet
+        console.log("Kein Benutzer angemeldet.");
+
+    }
 });
 
 
 // Registriert einen neuen Benutzer mit E-Mail und Passwort.
 export const signUp = async (email, password) => {
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log('User signed up:', userCredential.user);
-    createAccount(userCredential.user);
-    saveUserToLocalStorage(userCredential.user.uid, userCredential.user.email);
-    return userCredential.user;
-  } catch (error) {
-    console.error('Error signing up:', error.message);
-    throw error;
-  }
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        console.log('User signed up:', userCredential.user);
+        createAccount(userCredential.user);
+        saveUserToLocalStorage(userCredential.user.uid, userCredential.user.email);
+        // Erstelle das Benutzer-Dokument
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+            email: userCredential.user.email,
+        });
+
+        return userCredential.user;
+    } catch (error) {
+        console.error('Error signing up:', error.message);
+        throw error;
+    }
 };
 
 
 // Funktion zum Erstellen eines Benutzerkontos
 const createAccount = async (user) => {
-  try {
-    console.log("New User");
-    console.log(user);
+    try {
+        console.log("New User");
+        console.log(user);
 
-    // Erstelle das Benutzer-Dokument
-    await setDoc(doc(db, "users", user.uid), {
-      email: user.email,
-    });
 
-    // Füge eine Sub-Sammlung "myBooks" für den Benutzer hinzu
-    // Hier erstellen wir ein Dokument in der Sub-Sammlung "myBooks"
-    //const userBooksCollectionRef = collection(db, "users", user.uid, "myBooks"); //this doesnt work, because i need to add data first
+        // Füge eine Sub-Sammlung "myBooks" für den Benutzer hinzu
+        // Hier erstellen wir ein Dokument in der Sub-Sammlung "myBooks"
+        //const userBooksCollectionRef = collection(db, "users", user.uid, "myBooks"); //this doesnt work, because i need to add data first
 
-    /*// Beispiel: Erstelle ein Buch-Dokument in der "myBooks"-Sub-Sammlung
-    await addDoc(userBooksCollectionRef, {
-      book_id: "book123",
-      bites: [["bite1", "translation1"], ["bite2", "translation2"]],
-      rating: 4,
-      progress: 50
-    });
-*/
-    alert('User account created and myBooks collection updated successfully!');
-    saveUserToLocalStorage(user.uid, user.email);
-  } catch (error) {
-    console.error("Error creating user:", error);
-    alert('Error creating user account.');
-  }
+        /*// Beispiel: Erstelle ein Buch-Dokument in der "myBooks"-Sub-Sammlung
+        await addDoc(userBooksCollectionRef, {
+          book_id: "book123",
+          bites: [["bite1", "translation1"], ["bite2", "translation2"]],
+          rating: 4,
+          progress: 50
+        });
+    */
+        alert('User account created and myBooks collection updated successfully!');
+        saveUserToLocalStorage(user.uid, user.email);
+        
+        // Erstelle das Benutzer-Dokument
+        await setDoc(doc(db, "users", user.uid), {
+            email: user.email,
+        });
+    } catch (error) {
+        console.error("Error creating user:", error);
+        alert('Error creating user account.');
+    }
 };
 
 // Meldet einen Benutzer mit E-Mail und Passwort an.
 export const signIn = async (email, password) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    console.log('User signed in:', userCredential.user);
-    saveUserToLocalStorage(userCredential.user.uid, userCredential.user.email);
-    return userCredential.user;
-  } catch (error) {
-    console.error('Error signing in:', error.message);
-    throw error;
-  }
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log('User signed in:', userCredential.user);
+        saveUserToLocalStorage(userCredential.user.uid, userCredential.user.email);
+        let getUserData = await getDoc(doc(db, "users", userCredential.user.uid));
+        console.log(getUserData)
+        if (getUserData == null) {
+            // Erstelle das Benutzer-Dokument
+            await setDoc(doc(db, "users", userCredential.user.uid), {
+                email: userCredential.user.email,
+            });
+        }
+
+        return userCredential.user;
+    } catch (error) {
+        console.error('Error signing in:', error.message);
+        throw error;
+    }
 };
 
 // Meldet den Benutzer über Google an (OAuth).
 export const signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;  // Das Benutzerobjekt
-    console.log('User signed in with Google:', user);
-    saveUserToLocalStorage(user.uid, user.email);
-    return user;
-  } catch (error) {
-    console.error('Error signing in with Google:', error.message);
-    throw error;
-  }
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;  // Das Benutzerobjekt
+        console.log('User signed in with Google:', user);
+        saveUserToLocalStorage(user.uid, user.email);
+        let getUserData = await getDoc(doc(db, "users", user.uid));
+        console.log(getUserData)
+        if (getUserData == null) {
+            // Erstelle das Benutzer-Dokument
+            await setDoc(doc(db, "users", user.uid), {
+                email: user.email,
+            });
+        }
+        return user;
+    } catch (error) {
+        console.error('Error signing in with Google:', error.message);
+        throw error;
+    }
 };
 
 // Meldet den aktuellen Benutzer ab.
 export const logout = async () => {
-  try {
-    await signOut(auth);
-    console.log('User signed out');
-    // Lösche die Benutzerdaten aus dem localStorage
-    removeUserFromLocalStorage();
-  } catch (error) {
-    console.error('Error signing out:', error.message);
-    throw error;
-  }
+    try {
+        await signOut(auth);
+        console.log('User signed out');
+        // Lösche die Benutzerdaten aus dem localStorage
+        removeUserFromLocalStorage();
+    } catch (error) {
+        console.error('Error signing out:', error.message);
+        throw error;
+    }
 };
 
 // Neues Passwort für den Benutzer, für zukunft
 export const changePassword = async (newPassword) => {
-  try {
-    const user = result.user;  // Das Benutzerobjekt
-    // Benutzerauthentifizierung ist erforderlich, um das Passwort zu ändern
-    updatePassword(user, newPassword)
-    .then(() => {
-        // Passwort wurde erfolgreich geändert
-        alert("Password updated successfully!");
-    })
-    .catch((error) => {
-        // Fehler bei der Passwortänderung
-        console.error("Error updating password:", error);
-        alert("Error updating password: " + error.message);
-    });
-  } catch (error) {
-    console.error('No User logged');
-    throw error;
-  }
+    try {
+        const user = result.user;  // Das Benutzerobjekt
+        // Benutzerauthentifizierung ist erforderlich, um das Passwort zu ändern
+        updatePassword(user, newPassword)
+            .then(() => {
+                // Passwort wurde erfolgreich geändert
+                alert("Password updated successfully!");
+            })
+            .catch((error) => {
+                // Fehler bei der Passwortänderung
+                console.error("Error updating password:", error);
+                alert("Error updating password: " + error.message);
+            });
+    } catch (error) {
+        console.error('No User logged');
+        throw error;
+    }
 };
+
+export const addBookToCollection = async (book) => {
+    const user = localStorage.getItem("userUid");  // Hole die Benutzer-ID aus dem LocalStorage
+    if (!user) {
+        console.error('User is not logged in');
+        return;
+    }
+
+    try {
+        // Referenz zur "myBooks" Subcollection des Benutzers
+        // Verwende `doc()` für das Dokument mit einer benutzerdefinierten ID (book.id)
+        const bookRef = doc(db, "users", user, "myBooks", book);
+
+        // Füge das Buch als Dokument hinzu
+        await setDoc(bookRef, {
+            title: "test",  // Titel des Buches
+            progression: 34,  // Fortschritt des Buches
+            bites: "JSONDATA"  // Bites (z. B. Array oder JSON-Daten)
+        });
+
+        console.log("Book added to collection with ID:", book.id);
+    } catch (error) {
+        console.error("Error adding book to collection:", error);
+    }
+};
+
 
 export { app, auth, db, provider, loggeduser };
 
