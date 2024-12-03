@@ -5,51 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome - LitBites</title>
-
-    <!-- Firebase und andere Module als Module einbinden -->
-    <script type="module" src="src/firebase/firebaseinit.js"></script> <!-- Firebase Initialisierung -->
-    <script type="module" src="src/firebase/app.js" defer></script> <!-- App Logik -->
-    <link rel="stylesheet" href="styles.css"> <!-- Dein CSS-Link -->
-
+    <link rel="stylesheet" href="/src/css/styles.css"> <!-- Dein CSS-Link -->
 </head>
 
 <body>
-    <!-- Dynamisch geladene Taskleiste -->
-    <div id="taskbar-container">
-        <div class="taskbar">
-            <!-- Logo links -->
-            <div class="logo">
-                <img src="content/Icon.png" alt="Logo" height="120">
-            </div>
-        
-            <!-- Navigation rechts -->
-            <div id="taskbarnavigation" class="taskbarnavigation">
-                <a href="#" id="my-books">My Books</a>
-                <a href="#" id="my-bites">My Bites</a>
-                <a href="myProfile.html" id="profile">My Profile</a>
-            </div>
+    <div class="taskbar">
+        <div class="logo">
+            <img src="/assets/Icon.png" alt="Logo" height="120">
         </div>
-        
+
+        <div id="taskbarnavigation" class="taskbarnavigation" style="display: none;">
+            <a href="#" id="my-profile">My Profile</a>
+        </div>
     </div>
+
+    <!-- Dropdown-Menü -->
+    <div id="profile-menu" class="profile-menu">
+        <ul>
+            <li><a href="#">Edit Profile</a></li>
+            <li><a href="#" id="logout-btn">Logout</a></li>
+        </ul>
+    </div>
+
     <div id="login_content">
         <h1>Welcome to LitBites</h1>
         <input type="email" id="email_field" name="email" placeholder="Enter your E-mail" required />
         <input type="password" id="password_field" name="password" placeholder="Enter your Password" required />
-
         <input type="submit" id="login_btn" name="login" value="Login" />
-        <input type="submit" id="google-login_btn" name="google_login" value="Login with Google"/>
+        <input type="submit" id="google-login_btn" name="google_login" value="Login with Google" />
+        <br>
+        <input type="submit" id="createAccount_btn" name="createaccount" value="Create Account" />
     </div>
+
     <div id="content" style="display: none;">
         <h1 id="welcome_headline"></h1>
         <div id="addbooks"></div>
         <input type="submit" id="logout_btn" name="logout" value="Logout" />
     </div>
 
+    <script type="module" src="src/services/firebase.js"></script> <!-- Firebase Initialisierung -->
+    <script type="module" src="src/app.js"></script> <!-- App Logik -->
+    <script type="module" src="src/components/taskbar.js"></script> <!-- Dein externer JavaScript-Link -->
 </body>
-<footer>
-    <script src="/src/scripts/onload.js"></script> <!-- Dein externer JavaScript-Link -->
-    <script src="/src/scripts/book.js"></script> <!-- Dein externer JavaScript-Link -->
-
-</footer>
 
 </html>

@@ -5,6 +5,7 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 import { doc, setDoc, getDoc, getDocs, getFirestore, updateDoc, Timestamp, collection, where, query, FieldValue, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut, updatePassword} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; //von gettstarted login
 
+//import {changeContent} from "./app.js"
 
 // Deine Firebase-Konfiguration
 const firebaseConfig = {
@@ -34,13 +35,11 @@ onAuthStateChanged(auth, (user) => {
     // Zugriff auf Benutzerinformationen wie z.B. UID und E-Mail
     console.log("Benutzer ID:", user.uid);
     console.log("Benutzer E-Mail:", user.email);
-    loggeduser = user;
-
-    changeContent(true)
+    //saveUserToLocalStorage(user.uid, user.email);
   } else {
     // Der Benutzer ist nicht angemeldet
     console.log("Kein Benutzer angemeldet.");
-    changeContent(false)
+    
   }
 });
 
@@ -50,10 +49,44 @@ export const signUp = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     console.log('User signed up:', userCredential.user);
+    createAccount(userCredential.user);
+    saveUserToLocalStorage(userCredential.user.uid, userCredential.user.email);
     return userCredential.user;
   } catch (error) {
     console.error('Error signing up:', error.message);
     throw error;
+  }
+};
+
+
+// Funktion zum Erstellen eines Benutzerkontos
+const createAccount = async (user) => {
+  try {
+    console.log("New User");
+    console.log(user);
+
+    // Erstelle das Benutzer-Dokument
+    await setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+    });
+
+    // Füge eine Sub-Sammlung "myBooks" für den Benutzer hinzu
+    // Hier erstellen wir ein Dokument in der Sub-Sammlung "myBooks"
+    //const userBooksCollectionRef = collection(db, "users", user.uid, "myBooks"); //this doesnt work, because i need to add data first
+
+    /*// Beispiel: Erstelle ein Buch-Dokument in der "myBooks"-Sub-Sammlung
+    await addDoc(userBooksCollectionRef, {
+      book_id: "book123",
+      bites: [["bite1", "translation1"], ["bite2", "translation2"]],
+      rating: 4,
+      progress: 50
+    });
+*/
+    alert('User account created and myBooks collection updated successfully!');
+    saveUserToLocalStorage(user.uid, user.email);
+  } catch (error) {
+    console.error("Error creating user:", error);
+    alert('Error creating user account.');
   }
 };
 
@@ -62,6 +95,7 @@ export const signIn = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log('User signed in:', userCredential.user);
+    saveUserToLocalStorage(userCredential.user.uid, userCredential.user.email);
     return userCredential.user;
   } catch (error) {
     console.error('Error signing in:', error.message);
@@ -75,6 +109,7 @@ export const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;  // Das Benutzerobjekt
     console.log('User signed in with Google:', user);
+    saveUserToLocalStorage(user.uid, user.email);
     return user;
   } catch (error) {
     console.error('Error signing in with Google:', error.message);
@@ -87,6 +122,8 @@ export const logout = async () => {
   try {
     await signOut(auth);
     console.log('User signed out');
+    // Lösche die Benutzerdaten aus dem localStorage
+    removeUserFromLocalStorage();
   } catch (error) {
     console.error('Error signing out:', error.message);
     throw error;
@@ -116,19 +153,27 @@ export const changePassword = async (newPassword) => {
 
 export { app, auth, db, provider, loggeduser };
 
-const changeContent = (state) => {
-  if (state === true) {
-    // Wenn der Zustand true ist, verberge das Login-Formular und zeige den Haupt-Content
-    document.getElementById('login_content').style.display = 'none';
-    document.getElementById('content').style.display = 'block';  // Den Content sichtbar machen
 
-    document.getElementById('welcome_headline').innerText = "Willkommen auf LitBits " + loggeduser.email;
-    document.getElementById('taskbarnavigation').style.display = 'block';
- 
-  } else if (state === false) {
-    // Wenn der Zustand false ist, zeige das Login-Formular und verberge den Haupt-Content
-    document.getElementById('login_content').style.display = 'block';  // Login-Formular sichtbar machen
-    document.getElementById('content').style.display = 'none';  // Haupt-Content unsichtbar machen
-    document.getElementById('taskbarnavigation').style.display = 'none';
-  }
+function saveUserToLocalStorage(uid, email) {
+    // Speichern der Benutzerinformationen im localStorage
+    localStorage.setItem('userUid', uid);
+    localStorage.setItem('userEmail', email);
+    console.log('User data saved to localStorage:', { uid, email });
+}
+
+function removeUserFromLocalStorage() {
+    localStorage.removeItem('userUid');
+    localStorage.removeItem('userEmail');
+    console.log('User data removed from localStorage');
+}
+
+// Beispiel für Logout
+const logoutUser = async () => {
+    try {
+        await signOut(auth);
+        removeUserFromLocalStorage(); // Benutzerdaten entfernen
+        console.log('User logged out');
+    } catch (error) {
+        console.error('Error signing out:', error.message);
+    }
 };
