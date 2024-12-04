@@ -1,7 +1,7 @@
 // app.js - Login/SignUp Logik
 import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp } from './services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
 import { initializeBookCarousel, searchBooks } from './components/book-carousel.js'; // Importiere die Funktionen aus book-carousel.js
-import { initializeMyBooksCarousel } from './components/mybooks-carousel.js'; // Importiere die Funktionen aus book-carousel.js
+import { initializeMyBooksCarousel, searchMyBooks} from './components/mybooks-carousel.js'; // Importiere die Funktionen aus book-carousel.js
 
 
 // Überprüfe, ob die Benutzerdaten im localStorage gespeichert sind
@@ -57,7 +57,9 @@ export const changeContent = (state) => {
         document.getElementById('login_content').style.display = 'none';
         document.getElementById('content').style.display = 'block';  // Den Content sichtbar machen
 
-        document.getElementById('welcome_headline').innerText = "Willkommen auf LitBits " + userEmail;
+
+        // document.getElementById('welcome_headline').innerText = "Willkommen auf LitBits " + userEmail; //sorgt für Bugs, auch wenn es null ist 
+
         document.getElementById('taskbarnavigation').style.display = 'block';
         initializeMyBooksCarousel();  // After login MyBookCarousel is loaded
 

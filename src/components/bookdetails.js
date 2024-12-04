@@ -191,26 +191,20 @@ function initmyBites(bites) {
 
     bites.forEach(bite => {
         const listItem = document.createElement("li");
-        const editableDiv = document.createElement("div");
+        const biteDiv = document.createElement("div");
 
-        editableDiv.textContent = bite;
+        biteDiv.textContent = bite; // Setze den Bite-Text
+        biteDiv.style.whiteSpace = "pre-wrap"; // Zeilenumbrüche anzeigen
+        biteDiv.style.border = "1px solid #ccc";
+        biteDiv.style.padding = "10px";
+        biteDiv.style.margin = "5px auto";
+        biteDiv.style.width = "98%";
+        biteDiv.style.maxWidth = "800px";
+        biteDiv.style.minHeight = "50px";
+        biteDiv.style.borderRadius = "5px";
+        biteDiv.style.backgroundColor = "#f9f9f9";
 
-        // Bearbeitung deaktivieren
-        editableDiv.contentEditable = "false"; // Deaktiviert die Bearbeitung
-        editableDiv.style.pointerEvents = "none"; // Verhindert Benutzerinteraktionen
-
-        // Stile für Anzeige
-        editableDiv.style.border = "1px solid #ccc";
-        editableDiv.style.padding = "10px";
-        editableDiv.style.margin = "5px auto";
-        editableDiv.style.width = "98%";
-        editableDiv.style.maxWidth = "800px";
-        editableDiv.style.minHeight = "50px";
-        editableDiv.style.borderRadius = "5px";
-        editableDiv.style.backgroundColor = "#f9f9f9";
-        editableDiv.style.overflowWrap = "break-word"; // Zeilenumbrüche innerhalb von Wörtern erlauben
-
-        listItem.appendChild(editableDiv);
+        listItem.appendChild(biteDiv);
         biteList.appendChild(listItem);
     });
 }
@@ -223,8 +217,10 @@ async function checkMyBook() {
     console.log("AYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
 
     console.log(myBooksData);
-    if (myBooksData == null || myBooksData.length == 0)
+    if (myBooksData == null || myBooksData.length == 0){
+        changeContent(false)
         return
+    }
 
     let id = getBookKeyFromURL();
     console.log("KEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")

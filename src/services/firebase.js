@@ -130,13 +130,16 @@ export const signInWithGoogle = async () => {
         console.log('User signed in with Google:', user);
         saveUserToLocalStorage(user.uid, user.email);
         let getUserData = await getDoc(doc(db, "users", user.uid));
-        console.log(getUserData)
-        if (getUserData == null) {
+        console.log("USER DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        console.log(getUserData._document)
+
+        if (getUserData._document == null) {
             // Erstelle das Benutzer-Dokument
             await setDoc(doc(db, "users", user.uid), {
-                email: user.email,
+                email: "googleaccount"
             });
         }
+        console.log("LOLOLOLOLOL!!!!!!!!!!!!!!!!!!")
        // await fetchUserBooks(user.uid);
         return user;
     } catch (error) {

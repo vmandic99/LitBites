@@ -3,7 +3,7 @@ function checkUserInLocalStorage() {
     const userUid = localStorage.getItem('userUid');
     const userEmail = localStorage.getItem('userEmail');
 
-    if (userUid && userEmail) {
+    if (userUid) {
         // Benutzerdaten gefunden, der Benutzer ist angemeldet
         console.log('User found in localStorage:', { userUid, userEmail });
         return true;  // Benutzer ist angemeldet

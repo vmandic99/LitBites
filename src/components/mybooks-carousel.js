@@ -66,6 +66,8 @@ export async function initializeMyBooksCarousel() {
         updateCarousel();  // Zeige das Carousel mit den Buchdaten an
     }
 
+
+
     // Funktion für das Vor- und Zurückblättern der Bücher
     function moveCarousel(direction) {
         if (direction === 'next' && currentIndex < books.length - 1) {
@@ -92,4 +94,9 @@ export async function initializeMyBooksCarousel() {
     nextBtn.addEventListener('click', () => moveCarousel('next'));
 
     renderBooks();  // Bücher sofort rendern
+}
+
+export function searchMyBooks(){
+    
+    return
 }
