@@ -1,7 +1,6 @@
-import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp, addBookToCollection } from '../services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
+import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp, addBookToCollection, fetchUserBooks } from '../services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
 
 let currentBook;
-
 
 
 
@@ -99,8 +98,6 @@ if (bookKey) {
 }
 
 
-
-
 function addBookToCollectionEventClick() {
     console.log("The book was added to your collection!");
     // Die URL der aktuellen Seite
@@ -111,8 +108,8 @@ function addBookToCollectionEventClick() {
     console.log("CLICK");
     addBookToCollection(bookKey)
     // Zeigt das Element wieder an, wenn es mit display: none versteckt wurde
-   // document.getElementById("bites").style.display = "block";  // Für Block-Level-Elemente
-   // document.getElementById("addBookToCollection-btn").style.display = "none"
+    // document.getElementById("bites").style.display = "block";  // Für Block-Level-Elemente
+    // document.getElementById("addBookToCollection-btn").style.display = "none"
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -124,10 +121,46 @@ document.addEventListener('DOMContentLoaded', () => {
         addButton.addEventListener('click', () => {
             console.log("Click");
             addBookToCollectionEventClick();  // Rufe die Funktion auf, wenn der Button geklickt wird
+            changeContent(true)
         });
     } else {
         console.error("Button with id 'addBookToCollection-btn' not found.");
     }
+
+
+    checkMyBook();
+
 });
 
+function changeContent(state) {
+    if (state) {
+        document.getElementById('addBookToCollection-btn').style.display = 'none';
+        document.getElementById('bites').style.display = 'block';
+    } else {
+        document.getElementById('addBookToCollection-btn').style.display = 'block';
+        document.getElementById('bites').style.display = 'none';
+    }
+}
+
+
+
+async function checkMyBook() {
+    console.log("USER UIDDDDDDDDDDDDD")
+    console.log(localStorage.getItem("userUid"))
+    let myBooksData = await fetchUserBooks(localStorage.getItem("userUid"));
+    console.log("AYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+
+    console.log(myBooksData);
+    if (myBooksData == null || myBooksData.length == 0)
+        return
+
+    let id = getBookKeyFromURL();
+    console.log("KEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+    console.log(myBooksData.includes(id))
+    if (myBooksData.includes(id))
+        changeContent(true)
+    else
+        changeContent(false)
+
+}
 

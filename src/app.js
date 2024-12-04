@@ -59,6 +59,8 @@ export const changeContent = (state) => {
 
         document.getElementById('welcome_headline').innerText = "Willkommen auf LitBits " + userEmail;
         document.getElementById('taskbarnavigation').style.display = 'block';
+        initializeMyBooksCarousel();  // After login MyBookCarousel is loaded
+
     } else if (state === false) {
         // Wenn der Zustand false ist, zeige das Login-Formular und verberge den Haupt-Content
         document.getElementById('login_content').style.display = 'block';  // Login-Formular sichtbar machen
@@ -99,5 +101,3 @@ function searchBooksForMyBooks() {
 // **Event-Listener** für die Buttons, die in `addbooks.html` vorhanden sind.
 document.getElementById('search-btn-addbooks').addEventListener('click', searchBooksForAdd);
 document.getElementById('search-btn-mybooks').addEventListener('click', searchBooksForMyBooks);
-
-initializeMyBooksCarousel()

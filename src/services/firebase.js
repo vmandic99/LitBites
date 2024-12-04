@@ -215,6 +215,7 @@ function saveUserToLocalStorage(uid, email) {
 function removeUserFromLocalStorage() {
     localStorage.removeItem('userUid');
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('mybooks')
     console.log('User data removed from localStorage');
 }
 
@@ -223,6 +224,7 @@ const logoutUser = async () => {
     try {
         await signOut(auth);
         removeUserFromLocalStorage(); // Benutzerdaten entfernen
+
         console.log('User logged out');
     } catch (error) {
         console.error('Error signing out:', error.message);
@@ -262,6 +264,7 @@ export const fetchUserBooks = async (userId) => {
         console.log(localStorage.getItem("mybooks"))
         return bookIds;
     } catch (error) {
-        console.error("Error fetching user's books:", error);
+        //console.error("Error fetching user's books:", error);
+        console.log("No Books");
     }
 };

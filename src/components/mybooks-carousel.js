@@ -5,6 +5,7 @@ let books = []; // Array zum Speichern der Buchdaten
 export async function initializeMyBooksCarousel() {
     let myBooksData = await fetchUserBooks(localStorage.getItem("userUid"));
     console.log(myBooksData);
+    console.log("UJHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
     if(myBooksData == null || myBooksData.length == 0)
         return
     const container = document.getElementById("mybooks");

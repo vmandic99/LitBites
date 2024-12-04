@@ -78,6 +78,7 @@ export function initializeBookCarousel(containerId, booksData) {
 }
 
 // Funktion zum Suchen von Büchern
+// If someone searches for a book the carousel is being initialized
 export function searchBooks(query, containerId) {
     if (!query) {
         alert('Please enter a search query.');
