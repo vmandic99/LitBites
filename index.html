@@ -46,8 +46,6 @@
             <!-- Für Add Books Bereich -->
             <button id="search-btn-addbooks">Search</button>
 
-
-
             <!-- Carousel Container for Add Books -->
             <div id="addbooks-carousel" class="book-carousel">
                 <div class="book-list"></div>
@@ -61,18 +59,18 @@
         <div id="mybooks">
             <h1>Search through Your Books</h1>
             <input type="text" id="mybooks_search-query" placeholder="Enter book title or author" />
-            <!-- Für My Books Bereich -->
             <button id="search-btn-mybooks">Search</button>
-
+        
             <!-- Carousel Container for My Books -->
             <div id="mybooks-carousel" class="book-carousel">
                 <div class="book-list"></div>
                 <div class="carousel-btns">
-                    <button class="prev-btn" onclick="moveCarousel('prev')">Prev</button>
-                    <button class="next-btn" onclick="moveCarousel('next')">Next</button>
+                    <button class="prev-btn">Prev</button>
+                    <button class="next-btn">Next</button>
                 </div>
             </div>
         </div>
+        
 
 
         <script type="module" src="src/services/firebase.js"></script> <!-- Firebase Initialisierung -->

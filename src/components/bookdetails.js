@@ -27,6 +27,7 @@ function getBookDetails(bookKey) {
             // Zeige die Buchdetails auf der Seite an
             console.log(data)
             displayBookDetails(data);
+            return data
         })
         .catch(error => {
             console.error('Error fetching book details:', error);
@@ -36,7 +37,6 @@ function getBookDetails(bookKey) {
 
 // Funktion, um die Buchdetails anzuzeigen
 function displayBookDetails(bookData) {
-
     // Zeige die Buchdetails auf der Seite an, z.B. Titel, Autoren, Beschreibung
     const title = bookData.title ? bookData.title : 'No titel available';
 

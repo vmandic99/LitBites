@@ -1,6 +1,8 @@
 // app.js - Login/SignUp Logik
 import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp } from './services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
 import { initializeBookCarousel, searchBooks } from './components/book-carousel.js'; // Importiere die Funktionen aus book-carousel.js
+import { initializeMyBooksCarousel } from './components/mybooks-carousel.js'; // Importiere die Funktionen aus book-carousel.js
+
 
 // Überprüfe, ob die Benutzerdaten im localStorage gespeichert sind
 const userUid = localStorage.getItem('userUid');
@@ -91,9 +93,11 @@ function searchBooksForAdd() {
 // Funktion für das Suchen von Büchern im My Books Bereich
 function searchBooksForMyBooks() {
     const query = document.getElementById('mybooks_search-query').value;
-    searchBooks(query, 'mybooks-carousel'); // Bücher für My Books Container suchen
+    searchMyBooks(query, 'mybooks-carousel'); // Bücher für My Books Container suchen
 }
 
 // **Event-Listener** für die Buttons, die in `addbooks.html` vorhanden sind.
 document.getElementById('search-btn-addbooks').addEventListener('click', searchBooksForAdd);
 document.getElementById('search-btn-mybooks').addEventListener('click', searchBooksForMyBooks);
+
+initializeMyBooksCarousel()

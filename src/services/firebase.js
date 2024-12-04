@@ -5,6 +5,10 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 import { doc, setDoc, getDoc, getDocs, getFirestore, updateDoc, Timestamp, collection, where, query, FieldValue, arrayUnion, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut, updatePassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"; //von gettstarted login
 
+
+import { initializeMyBooksCarousel } from '../components/mybooks-carousel.js'; // Importiere die Funktionen aus book-carousel.js
+
+
 //import {changeContent} from "./app.js"
 
 // Deine Firebase-Konfiguration
@@ -85,7 +89,7 @@ const createAccount = async (user) => {
     */
         alert('User account created and myBooks collection updated successfully!');
         saveUserToLocalStorage(user.uid, user.email);
-        
+
         // Erstelle das Benutzer-Dokument
         await setDoc(doc(db, "users", user.uid), {
             email: user.email,
@@ -110,7 +114,7 @@ export const signIn = async (email, password) => {
                 email: userCredential.user.email,
             });
         }
-
+        //await fetchUserBooks(userCredential.user.uid);
         return userCredential.user;
     } catch (error) {
         console.error('Error signing in:', error.message);
@@ -133,6 +137,7 @@ export const signInWithGoogle = async () => {
                 email: user.email,
             });
         }
+       // await fetchUserBooks(user.uid);
         return user;
     } catch (error) {
         console.error('Error signing in with Google:', error.message);
@@ -188,12 +193,9 @@ export const addBookToCollection = async (book) => {
 
         // Füge das Buch als Dokument hinzu
         await setDoc(bookRef, {
-            title: "test",  // Titel des Buches
-            progression: 34,  // Fortschritt des Buches
-            bites: "JSONDATA"  // Bites (z. B. Array oder JSON-Daten)
+            bites: arrayUnion()  // Bites (z. B. Array oder JSON-Daten)
         });
 
-        console.log("Book added to collection with ID:", book.id);
     } catch (error) {
         console.error("Error adding book to collection:", error);
     }
@@ -224,5 +226,42 @@ const logoutUser = async () => {
         console.log('User logged out');
     } catch (error) {
         console.error('Error signing out:', error.message);
+    }
+};
+
+
+// Funktion zum Laden der Bücher eines Benutzers
+export const fetchUserBooks = async (userId) => {
+    try {
+        // Erstelle eine Referenz zur "myBooks" Subcollection des Benutzers
+        const myBooksRef = collection(db, "users", userId, "myBooks");
+        // Hole die Dokumente (Bücher) aus der Subcollection
+        const querySnapshot = await getDocs(
+            query(myBooksRef)
+        )
+
+        await querySnapshot.forEach((doc) => {
+            console.log(doc.id, " => ", doc.data())
+        });
+
+        console.log("AYOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+        console.log(querySnapshot)
+        // Array zum Speichern der IDs der Bücher
+        const bookIds = [];
+
+        // Iteriere durch die Dokumente und hole die ID jedes Buches
+        await querySnapshot.forEach(doc => {
+            bookIds.push(doc.id);  // Die ID jedes Buches (Dokumenten-ID)
+        });
+
+        // Speichern des Arrays im localStorage
+        await localStorage.setItem("mybooks", JSON.stringify(bookIds));  // Buch-IDs als Array speichern
+        // Zeige die Buch-IDs in der Konsole
+        console.log("User's books IDs:", bookIds);
+        console.log("LOCAL STORAGGGGGGGGGGGGGGGGGGGGGGGGGGEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        console.log(localStorage.getItem("mybooks"))
+        return bookIds;
+    } catch (error) {
+        console.error("Error fetching user's books:", error);
     }
 };
