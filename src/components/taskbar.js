@@ -18,7 +18,8 @@ function logoutClick() {
     console.log('Logging out...');
     alert('Logged out successfully!');
     logout();
-window.location.href = '/LitBites/index.html';  // Weiterleitung zur Login-Seite
+window.location.href = window.location.origin + '/LitBites/index.html';
+    console.log(window.location.origin);
 }
 
 // Event Listener für das "My Profile"-Link und den Logout-Button hinzufügen
