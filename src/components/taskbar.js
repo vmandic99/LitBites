@@ -18,8 +18,7 @@ function logoutClick() {
     console.log('Logging out...');
     alert('Logged out successfully!');
     logout();
-window.location.href = window.location.origin + '/index.html';
-    console.log(window.location.origin);
+    window.location.href = 'https://vmandic99.github.io/LitBites/index.html';
 }
 
 // Event Listener für das "My Profile"-Link und den Logout-Button hinzufügen
