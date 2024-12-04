@@ -7,7 +7,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color:rgb(247, 247, 242);
 }
 
 /* taskbar CSS */
@@ -16,11 +16,11 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #333;
+    background-color:#333;
 }
 
 .logo img {
-    height: 50px;
+    height: 60px;
 }
 
 #taskbarnavigation a {
@@ -79,6 +79,25 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
+input[type="submit"] {
+    padding: 5px 10px;
+    /* Kleineres Padding, um den Button zu verkleinern */
+    font-size: 14px;
+    /* Kleinere Schriftgröße */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: auto;
+    /* Verhindert, dass der Button die gleiche Breite wie der Container hat */
+}
+
+input[type="submit"]:hover {
+    background-color: #4caf4fa5;
+}
+
 
 .book-carousel {
     display: flex;

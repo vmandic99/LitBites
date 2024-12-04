@@ -83,7 +83,8 @@
 <body>
     <div class="taskbar">
         <div class="logo">
-            <img src="/assets/Icon.png" alt="Logo" height="120">
+            <img src="/assets/Icon.png" alt="Logo" height="120" onclick="location.href='index.html';"
+                style="cursor: pointer;">
         </div>
 
         <div id="taskbarnavigation" class="taskbarnavigation">
@@ -94,7 +95,6 @@
     <!-- Dropdown-Menü -->
     <div id="profile-menu" class="profile-menu">
         <ul>
-            <li><a href="#">Edit Profile</a></li>
             <li><a href="#" id="logout-btn">Logout</a></li>
         </ul>
     </div>
@@ -128,7 +128,9 @@
 
     </div>
 
-    <button id="addBookToCollection-btn" style="display: none; font-size: 18px; padding: 15px 30px; margin-left: 20px;">Add this book to my Collection</button>
+    <button id="addBookToCollection-btn"
+        style="display: none; font-size: 18px; padding: 15px 30px; margin-left: 20px;">Add this book to my
+        Collection</button>
 
     <script type="module" src="src/components/taskbar.js"></script> <!-- Dein externer JavaScript-Link -->
     <script type="module" src="src/components/bookdetails.js"></script> <!-- Dein externer JavaScript-Link -->

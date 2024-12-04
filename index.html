@@ -11,7 +11,8 @@
 <body>
     <div class="taskbar">
         <div class="logo">
-            <img src="/assets/Icon.png" alt="Logo" height="120">
+            <img src="/assets/Icon.png" alt="Logo" height="120" onclick="location.href='index.html';"
+                style="cursor: pointer;">
         </div>
 
         <div id="taskbarnavigation" class="taskbarnavigation" style="display: none;">
@@ -22,20 +23,35 @@
     <!-- Dropdown-Menü -->
     <div id="profile-menu" class="profile-menu">
         <ul>
-            <li><a href="#">Edit Profile</a></li>
             <li><a href="#" id="logout-btn">Logout</a></li>
         </ul>
     </div>
 
-    <div id="login_content">
-        <h1>Welcome to LitBites</h1>
-        <input type="email" id="email_field" name="email" placeholder="Enter your E-mail" required />
-        <input type="password" id="password_field" name="password" placeholder="Enter your Password" required />
-        <input type="submit" id="login_btn" name="login" value="Login" />
-        <input type="submit" id="google-login_btn" name="google_login" value="Login with Google" />
+    <div id="login_content"
+        style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: Arial, sans-serif;">
+        <h1 style="font-size: 2.5rem; color: #333; margin-bottom: 20px;">Welcome to LitBites</h1>
+
+        <!-- Email Field -->
+        <input type="email" id="email_field" name="email" placeholder="Enter your E-mail" required
+            style="width: 80%; max-width: 400px; padding: 10px 15px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem;" />
+
+        <!-- Password Field -->
+        <input type="password" id="password_field" name="password" placeholder="Enter your Password" required
+            style="width: 80%; max-width: 400px; padding: 10px 15px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem;" />
+
+        <!-- Login Button -->
+        <input type="submit" id="login_btn" name="login" value="Login"
+            style="width: 80%; max-width: 400px; padding: 10px 15px; margin: 10px 0; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; color: #fff; background-color: #007BFF; cursor: pointer; transition: background-color 0.3s ease;" />
+        <input type="submit" id="google-login_btn" name="google_login" value="Login with Google"
+            style="width: 80%; max-width: 400px; padding: 10px 15px; margin: 10px 0; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; color: #fff; background-color: #db4437; cursor: pointer; transition: background-color 0.3s ease;" />
+
         <br>
-        <input type="submit" id="createAccount_btn" name="createaccount" value="Create Account" />
+
+        <!-- Create Account Button -->
+        <input type="submit" id="createAccount_btn" name="createaccount" value="Create Account"
+            style="width: 80%; max-width: 400px; padding: 10px 15px; margin: 10px 0; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; color: #fff; background-color: #28a745; cursor: pointer; transition: background-color 0.3s ease;" />
     </div>
+
 
     <div id="content" style="display: none;">
         <h1 id="welcome_headline"></h1>
@@ -55,12 +71,15 @@
                 </div>
             </div>
         </div>
+        <hr style="border: 1px solid black; width: 80%; margin: 20px auto;">
 
         <div id="mybooks">
-            <h1>Search through Your Books</h1>
-            <input type="text" id="mybooks_search-query" placeholder="Enter book title or author" />
-            <button id="search-btn-mybooks">Search</button>
-        
+            <h1>Your Books</h1>
+            <!-- Search function to be added-->
+            <input type="text" id="mybooks_search-query" placeholder="Enter book title or author"
+                style="display: none;" />
+            <button id="search-btn-mybooks" style="display: none;">Search</button>
+
             <!-- Carousel Container for My Books -->
             <div id="mybooks-carousel" class="book-carousel">
                 <div class="book-list"></div>
@@ -70,7 +89,7 @@
                 </div>
             </div>
         </div>
-        
+
 
 
         <script type="module" src="src/services/firebase.js"></script> <!-- Firebase Initialisierung -->
