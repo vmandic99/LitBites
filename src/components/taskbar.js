@@ -18,7 +18,7 @@ function logoutClick() {
     console.log('Logging out...');
     alert('Logged out successfully!');
     logout();
-    window.location.href = "../index.html";  // Weiterleitung zur Login-Seite
+    window.location.href = './index.html';  // Weiterleitung zur Login-Seite
 }
 
 // Event Listener für das "My Profile"-Link und den Logout-Button hinzufügen
