@@ -225,6 +225,39 @@ export const addBiteToCollection = async (book, bite) => {
     }
 };
 
+
+
+
+export const fetchUserBites = async (book) => {
+    const user = localStorage.getItem("userUid"); // Hole die Benutzer-ID aus dem LocalStorage
+    if (!user) {
+        console.error('User is not logged in');
+        return null; // Rückgabe von null, falls kein Benutzer eingeloggt ist
+    }
+
+    try {
+        // Referenz zur "myBooks"-Subcollection des Benutzers
+        const bookRef = doc(db, "users", user, "myBooks", book);
+
+        // Abrufen der Dokumentdaten
+        const docSnap = await getDoc(bookRef);
+
+        if (docSnap.exists()) {
+            // Daten aus dem Dokument
+            const data = docSnap.data();
+            console.log("Fetched Bites:", data.bites); // Prüfe die Bites im Dokument
+            return data.bites; // Rückgabe des Bites-Arrays
+        } else {
+            console.warn("No such document found for book:", book);
+            return null; // Kein Dokument gefunden
+        }
+
+    } catch (error) {
+        console.error("Error fetching bites from collection:", error);
+        return null; // Rückgabe von null bei Fehler
+    }
+};
+
 export { app, auth, db, provider, loggeduser };
 
 

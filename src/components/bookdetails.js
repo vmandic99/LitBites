@@ -1,4 +1,4 @@
-import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp, addBookToCollection, fetchUserBooks, addBiteToCollection } from '../services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
+import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp, addBookToCollection, fetchUserBooks, addBiteToCollection, fetchUserBites } from '../services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
 
 let currentBook;
 
@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("Button")
     console.log(addButton)
     checkMyBook();
+    let bookKey = getBookKeyFromURL();
 
     if (addButton) {  // Stelle sicher, dass der Button existiert
         // Füge das Onclick-Event hinzu
@@ -134,10 +135,21 @@ document.addEventListener('DOMContentLoaded', () => {
         addBiteButton.addEventListener('click', () => {
             console.log("Bite added");
             // Der Schlüssel in der URL ist 'key', wir holen den Wert des Parameters
-            let bookKey = getBookKeyFromURL();
             const bite = document.getElementById("add-bite").value;
+            if(bite == null || bite == ""){
+                window.alert("Didnt you bite anything from the literature? You have to get a big bite first!")
+                return
+            }
             console.log(bite)
             addBiteToCollection(bookKey, bite)
+
+            fetchUserBites(bookKey).then((bitesArray) => {
+                console.log("Fetched bites array:", bitesArray);
+    
+                initmyBites(bitesArray)
+            }).catch((error) => {
+                console.error("Error fetching bites:", error);
+            });
         })
     }
 });
@@ -147,6 +159,19 @@ function changeContent(state) {
         document.getElementById('addBookToCollection-btn').style.display = 'none';
         document.getElementById('bites-container').style.display = 'block';
         document.getElementById('bite-list-container').style.display = 'block';
+
+        fetchUserBites(bookKey).then((bitesArray) => {
+            console.log("Fetched bites array:", bitesArray);
+
+            // Verarbeite das Array
+            bitesArray.forEach((bite, index) => {
+                console.log(`Bite ${index + 1}: ${bite}`);
+            });
+            initmyBites(bitesArray)
+        }).catch((error) => {
+            console.error("Error fetching bites:", error);
+        });
+        console.log("USER HAT DIESES OBJECT");
     } else {
         document.getElementById('addBookToCollection-btn').style.display = 'block';
         document.getElementById('bites-container').style.display = 'none';
@@ -154,6 +179,41 @@ function changeContent(state) {
     }
 }
 
+function initmyBites(bites) {
+    const biteList = document.getElementById("bite-list");
+
+    if (!biteList) {
+        console.error("Bite list element not found!");
+        return;
+    }
+
+    biteList.innerHTML = ""; // Alte Inhalte entfernen
+
+    bites.forEach(bite => {
+        const listItem = document.createElement("li");
+        const editableDiv = document.createElement("div");
+
+        editableDiv.textContent = bite;
+
+        // Bearbeitung deaktivieren
+        editableDiv.contentEditable = "false"; // Deaktiviert die Bearbeitung
+        editableDiv.style.pointerEvents = "none"; // Verhindert Benutzerinteraktionen
+
+        // Stile für Anzeige
+        editableDiv.style.border = "1px solid #ccc";
+        editableDiv.style.padding = "10px";
+        editableDiv.style.margin = "5px auto";
+        editableDiv.style.width = "98%";
+        editableDiv.style.maxWidth = "800px";
+        editableDiv.style.minHeight = "50px";
+        editableDiv.style.borderRadius = "5px";
+        editableDiv.style.backgroundColor = "#f9f9f9";
+        editableDiv.style.overflowWrap = "break-word"; // Zeilenumbrüche innerhalb von Wörtern erlauben
+
+        listItem.appendChild(editableDiv);
+        biteList.appendChild(listItem);
+    });
+}
 
 
 async function checkMyBook() {
