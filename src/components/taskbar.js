@@ -18,7 +18,7 @@ function logoutClick() {
     console.log('Logging out...');
     alert('Logged out successfully!');
     logout();
-window.location.href = window.location.origin + '/LitBites/index.html';
+window.location.href = window.location.origin + '/index.html';
     console.log(window.location.origin);
 }
 
