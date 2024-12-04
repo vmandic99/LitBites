@@ -89,6 +89,8 @@ export function searchBooks(query, containerId) {
         return;
     }
 
+    showLoader(); // Zeige den Ladeprozess
+
     const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`;
     console.log(url);
     fetch(url)
@@ -96,9 +98,21 @@ export function searchBooks(query, containerId) {
         .then(data => {
             books = data.docs;
             initializeBookCarousel(containerId, books);  // Initialisiere das Carousel mit den Buchdaten
+            hideLoader();
         })
         .catch(error => {
             console.error('Error fetching data:', error);
             alert('An error occurred while fetching book data.');
+            hideLoader();
         });
 }
+
+function showLoader() {
+    document.getElementById('loader').style.display = 'block';
+}
+
+function hideLoader() {
+    document.getElementById('loader').style.display = 'none';
+}
+
+
