@@ -21,7 +21,7 @@ console.log('window.location.pathname:', window.location.pathname); // Gibt den 
 
     alert('Logged out successfully!');
     logout();
-    window.location.href = 'https://vmandic99.github.io/LitBites/index.html';
+    //window.location.href = 'https://vmandic99.github.io/LitBites/index.html';
 }
 
 // Event Listener für das "My Profile"-Link und den Logout-Button hinzufügen
