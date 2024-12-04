@@ -5,9 +5,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookDetails</title>
-    <link rel="stylesheet" href="/src/css/styles.css">
     <script type="module" src="src/services/check-auth.js"></script> <!-- Dein externer JavaScript-Link -->
+    <link rel="stylesheet" href="/src/css/styles.css"> <!-- Dein externer CSS-Link -->
+    <style>
+        .book-details-container {
+            display: grid;
+            grid-template-columns: 20% 80%;
+            /* Die rechte Spalte ist nun etwas kleiner */
+            grid-template-rows: 1fr auto;
+            gap: 10px;
+            /* Abstand zwischen den Spalten verringern */
+            padding: 20px;
+        }
 
+        .book-details {
+            padding: 20px;
+        }
+
+        .bites-container {
+            padding: 20px;
+            border-left: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-left: 10px;
+            /* Leichter Abstand zum linken Bereich */
+            visibility: none;
+        }
+
+        .textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .bites-container ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .bites-container ul li {
+            background-color: #f1f1f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            /* Kleineres Padding, um den Button zu verkleinern */
+            font-size: 14px;
+            /* Kleinere Schriftgröße */
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+            width: auto;
+            /* Verhindert, dass der Button die gleiche Breite wie der Container hat */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 
 <body>
@@ -29,19 +93,37 @@
         </ul>
     </div>
 
-    <div class="book-details">
-        <h1 id="book-title">Loading..</h1>
-        <img id="book-cover" src="" alt="Book Cover" style="max-width: 450px; max-height: 300px;"/>
-        <p id="book-authors"></p>
+    <!-- Layout-Container mit CSS Grid -->
+    <div class="book-details-container">
+        <!-- Links: Book Details -->
+        <div class="book-details">
+            <h1 id="book-title">Loading..</h1>
+            <img id="book-cover" src="" alt="Book Cover" style="max-width: 450px; max-height: 300px;" />
+            <p id="book-authors"></p>
+        </div>
+
+        <!-- Rechts: Textarea und Liste der Bites -->
+        <div id="bites-container" class="bites-container" style="display: none;">
+            <textarea id="add-bite" placeholder="Add a new bite..." rows="10" cols="40"></textarea>
+            <button id="save-bite">Save Bite</button>
+
+
+        </div>
     </div>
 
-    <button id="addBookToCollection-btn">Add this book to my Collection</button>
-    <div id="bites" style="display: none;">
-        <h1>Your Bites :D</h1>
+    <!-- Liste der Bites -->
+    <div id="bite-list-container" style="display: none;">
+        <h2>Your Bites:</h2>
+        <ul id="bite-list">
+            <!-- Dynamisch befüllte Liste kommt hierher -->
+        </ul>
+    
     </div>
+    
+    <button id="addBookToCollection-btn" style="display: none;">Add this book to my Collection</button>
+
     <script type="module" src="src/components/taskbar.js"></script> <!-- Dein externer JavaScript-Link -->
     <script type="module" src="src/components/bookdetails.js"></script> <!-- Dein externer JavaScript-Link -->
-
 </body>
 
 </html>

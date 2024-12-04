@@ -38,7 +38,11 @@ export function initializeBookCarousel(containerId, booksData) {
                 console.log(book)
                 // Klick-Event für das Buch hinzufügen, zur Detailseite weiterleiten
                 bookElement.addEventListener('click', function () {
-                    openBookPage(book.cover_edition_key); // Öffne die Detailseite für dieses Buch
+                    if (book.cover_edition_key != null || book.cover_edition_key != undefined)
+                        openBookPage(book.cover_edition_key); // Öffne die Detailseite für dieses Buch
+                    else
+                        openBookPage(book.edition_key[0]); // Öffne die Detailseite für dieses Buch
+
                 });
 
                 bookList.appendChild(bookElement);

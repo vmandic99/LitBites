@@ -110,35 +110,36 @@ function addBookToCollectionEventClick() {
     // Zeigt das Element wieder an, wenn es mit display: none versteckt wurde
     // document.getElementById("bites").style.display = "block";  // Für Block-Level-Elemente
     // document.getElementById("addBookToCollection-btn").style.display = "none"
+    changeContent(true);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const addButton = document.getElementById('addBookToCollection-btn');
     console.log("Button")
     console.log(addButton)
+    checkMyBook();
+
     if (addButton) {  // Stelle sicher, dass der Button existiert
         // Füge das Onclick-Event hinzu
         addButton.addEventListener('click', () => {
             console.log("Click");
+            //changeContent(true)
             addBookToCollectionEventClick();  // Rufe die Funktion auf, wenn der Button geklickt wird
-            changeContent(true)
         });
     } else {
         console.error("Button with id 'addBookToCollection-btn' not found.");
     }
-
-
-    checkMyBook();
-
 });
 
 function changeContent(state) {
     if (state) {
         document.getElementById('addBookToCollection-btn').style.display = 'none';
-        document.getElementById('bites').style.display = 'block';
+        document.getElementById('bites-container').style.display = 'block';
+        document.getElementById('bite-list-container').style.display = 'block';
     } else {
         document.getElementById('addBookToCollection-btn').style.display = 'block';
-        document.getElementById('bites').style.display = 'none';
+        document.getElementById('bites-container').style.display = 'none';
+        document.getElementById('bite-list-container').style.display = 'none';       
     }
 }
 
