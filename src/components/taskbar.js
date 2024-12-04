@@ -16,6 +16,9 @@ function toggleProfileMenu() {
 // Logout-Funktion
 function logoutClick() {
     console.log('Logging out...');
+    console.log('window.location.origin:', window.location.origin); // Gibt die Basis-URL aus (z. B. https://vmandic99.github.io)
+console.log('window.location.pathname:', window.location.pathname); // Gibt den Pfad nach der Domain aus (z. B. /LitBites/)
+
     alert('Logged out successfully!');
     logout();
     window.location.href = 'https://vmandic99.github.io/LitBites/index.html';
