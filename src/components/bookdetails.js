@@ -1,4 +1,4 @@
-import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp, addBookToCollection, fetchUserBooks } from '../services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
+import { app, auth, db, provider, loggeduser, signIn, signInWithGoogle, logout, signUp, addBookToCollection, fetchUserBooks, addBiteToCollection } from '../services/firebase.js';  // Sicherstellen, dass signIn korrekt importiert ist
 
 let currentBook;
 
@@ -129,6 +129,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error("Button with id 'addBookToCollection-btn' not found.");
     }
+    const addBiteButton = document.getElementById('save-bite');
+    if (addBiteButton) {
+        addBiteButton.addEventListener('click', () => {
+            console.log("Bite added");
+            // Der Schlüssel in der URL ist 'key', wir holen den Wert des Parameters
+            let bookKey = getBookKeyFromURL();
+            const bite = document.getElementById("add-bite").value;
+            console.log(bite)
+            addBiteToCollection(bookKey, bite)
+        })
+    }
 });
 
 function changeContent(state) {
@@ -139,7 +150,7 @@ function changeContent(state) {
     } else {
         document.getElementById('addBookToCollection-btn').style.display = 'block';
         document.getElementById('bites-container').style.display = 'none';
-        document.getElementById('bite-list-container').style.display = 'none';       
+        document.getElementById('bite-list-container').style.display = 'none';
     }
 }
 

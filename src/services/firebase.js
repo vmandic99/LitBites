@@ -202,6 +202,29 @@ export const addBookToCollection = async (book) => {
 };
 
 
+export const addBiteToCollection = async (book, bite) => {
+    const user = localStorage.getItem("userUid"); // Hole die Benutzer-ID aus dem LocalStorage
+    if (!user) {
+        console.error('User is not logged in');
+        return;
+    }
+
+    try {
+        // Referenz zur "myBooks" Subcollection des Benutzers
+        const bookRef = doc(db, "users", user, "myBooks", book);
+
+        // Aktualisiere das Dokument und füge den neuen Bite zum Array hinzu
+        await updateDoc(bookRef, {
+            bites: arrayUnion(bite) // arrayUnion fügt den neuen Bite hinzu, wenn er noch nicht existiert
+        });
+
+        console.log("Bite successfully added to collection");
+
+    } catch (error) {
+        console.error("Error adding bite to collection:", error);
+    }
+};
+
 export { app, auth, db, provider, loggeduser };
 
 

@@ -35,12 +35,18 @@
 
         .textarea {
             width: 100%;
+            /* Nimmt die gesamte Breite des Containers ein */
             margin-bottom: 10px;
             padding: 10px;
             font-size: 16px;
             resize: none;
+            /* Entfernt den Größenänderungs-Regler */
             box-sizing: border-box;
+            /* Stellt sicher, dass Padding berücksichtigt wird */
+            height: 100%;
+            /* Nimmt die gesamte Höhe des Containers ein */
         }
+
 
         .bites-container ul {
             list-style-type: none;
@@ -104,7 +110,7 @@
 
         <!-- Rechts: Textarea und Liste der Bites -->
         <div id="bites-container" class="bites-container" style="display: none;">
-            <textarea id="add-bite" placeholder="Add a new bite..." rows="10" cols="40"></textarea>
+            <textarea id="add-bite" class="textarea" placeholder="Add a new bite..." rows="10" cols="40"></textarea>
             <button id="save-bite">Save Bite</button>
 
 
@@ -117,9 +123,9 @@
         <ul id="bite-list">
             <!-- Dynamisch befüllte Liste kommt hierher -->
         </ul>
-    
+
     </div>
-    
+
     <button id="addBookToCollection-btn" style="display: none;">Add this book to my Collection</button>
 
     <script type="module" src="src/components/taskbar.js"></script> <!-- Dein externer JavaScript-Link -->
